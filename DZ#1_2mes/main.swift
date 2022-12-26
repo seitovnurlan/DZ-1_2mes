@@ -13,12 +13,7 @@
 //Классы должны находиться к отдельных файлах
 //Вся логика в main
 //Весь проект должен находиться в github (Все решения задач должны находиться в одном проекте так-же в коде должны комментарии которые доказывают работоспособность вашего кода)
-//
-//Так же прочитать следующий материал для закрепления пройденного на уроке:
-//https://metanit.com/swift/tutorial/3.1.php
-//https://metanit.com/swift/tutorial/3.3.php
-//https://metanit.com/swift/tutorial/3.2.php
-//
+
 //Дедлайн: пятницаlan Seitov on 23/12/22.
 ////
 
@@ -77,53 +72,65 @@
 import Foundation
 
 class Shop {
-    var name: String         //Название
-    var square: Int          //Площадь магазина
-    var location: String     //Месторасположение
-    var shop_type: String    //Тип магазина
+    var name: String               //Название
+    var location: String           //Месторасположение
+    var food_products: [Food_products]  //Продукты
     
-    init(name: String, square: Int, location: String, shop_type: String ) {
+    init(name: String, location: String, food_products: [Food_products]) {
         self.name = name
-        self.square = square
         self.location = location
-        self.shop_type = shop_type
+        self.food_products = food_products
     }
     
+    func add_prod(_ component: Food_products){
+        var sign: Bool = false
+        for item in food_products {
+            if item.name == component.name {
+                item.sum += component.sum
+                //item.cost +=component.cost
+                sign = true
+            }
+        }
+        if sign == false {
+            food_products.append(component)
+        }
+    }
+    
+    
     func showInfo(){
-        print("Name - \(self.name). Square - \(self.square). Location - \(self.location). Shop_type - \(self.shop_type).")
+        for i in food_products {
+            i.printfood()
+        }
+        //print("Name - \(self.name). Square - \(self.square). Location - \(self.location). //Shop_type - \(self.shop_type).")
     }
 }
 
 class Food_products {
     var name: String         //Название
-    var weight: Int          //Вес товара
+    var sum: Int          //Вес товара
     var cost: Int            //Стоимость
     
-    init(name: String, weight: Int, cost: Int) {
+    init(name: String, sum: Int, cost: Int) {
         self.name = name
-        self.weight = weight
+        self.sum = sum
         self.cost = cost
     }
     
-    func showInfo(){
-        print("Name - \(self.name). Weight - \(self.weight). Cost - \(self.cost).")
+    func printfood(){
+        print("Name - \(name). sum - \(sum). Cost - \(cost).")
     }
 }
 
+var goods1 = Food_products(name: "Banana", sum: 100, cost: 180)
+var goods2 = Food_products(name: "Pineapple", sum: 200, cost: 200)
+var goods3 = Food_products(name: "Mandarins", sum: 200, cost: 150)
+var goods4 = Food_products(name: "Banana", sum: 300, cost: 180)
 
-var dos = Shop(name: "Dostuk", square: 50, location: "Bishkek, centre", shop_type: "food shop")
+var foodArray = [Food_products]()
+var shop = Shop(name: "Dostuk", location: "Bishkek", food_products: foodArray)
+shop.add_prod(goods1)
+shop.add_prod(goods2)
+shop.add_prod(goods3)
+shop.add_prod(goods4)
 
-//dos.showInfo()
-
-var ban = Food_products(name: "Banan", weight: 100, cost: 180)
-var ana = Food_products(name: "Ananas", weight: 200, cost: 200)
-var man = Food_products(name: "Mandarin", weight: 200, cost: 150)
-
-var foodArray: [Food_products] = [ban,ana,man]
-for i in foodArray{
-    i.showInfo()
-   // print("\(i.name). \(i.weight). \(i.cost)")
-}
-
-
-
+shop.showInfo()
